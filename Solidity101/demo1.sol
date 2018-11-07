@@ -44,5 +44,4 @@ contract SpaceDoggos {
     uint planetCodeDigits = 7;
     uint systemCodeDigits = 7;
 
-    
 }
