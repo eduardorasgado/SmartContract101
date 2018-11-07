@@ -1,9 +1,18 @@
 pragma solidity ^0.4.0;
 
+// interfaces in solodity
+interface Regulator
+{
+    // check if we have enough founds
+    function checkValue(uint amount) returns (bool);
+}
+
 // a contract in this case is a class
 // in solidity classes does not exists anymore
 // instead we have contracts
-contract Bank
+
+// Back is inherit from Regulator interface
+contract Bank is Regulator
 {
     // cant be access from outside, just for
     // bank itself and children
@@ -24,7 +33,10 @@ contract Bank
 
     function withDraw(uint amount)
     {
-        value -= amount;
+        if(checkValue(amount))
+        {
+            value -= amount;
+        }
     }
 
     function balance() returns (uint)
@@ -35,7 +47,18 @@ contract Bank
     // like a virtual function
     // or a abstract function that can be implemented in
     // children
-    function loan() returns (bool);
+    //function loan() returns (bool);
+
+    function checkValue(uint amount) returns (bool)
+    {
+        // check deposit
+        return amount >= value;
+    }
+
+    function loan() returns (bool)
+    {
+        return value > 0;
+    }
 }
 
 // we can set a value at the moment of initialize the bank object that
@@ -63,9 +86,4 @@ contract contractLevelOne is Bank(10) {
         return age;
     }
 
-    // functions from bank(father contract)
-    function loan() returns (bool)
-    {
-        return true;
-    }
 }
