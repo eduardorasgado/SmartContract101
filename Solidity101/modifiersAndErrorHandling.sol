@@ -43,12 +43,12 @@ contract Bank is Regulator
     // set the ownerFunc
     // which means no one except the owner of the contract can
     // access these functions
-    function deposit(uint amount) ownerFunc
+    function deposit(uint amount) internal ownerFunc
     {
         value += amount;
     }
 
-    function withDraw(uint amount) ownerFunc
+    function withDraw(uint amount) private ownerFunc
     {
         if(checkValue(amount))
         {
@@ -101,6 +101,35 @@ contract contractLevelOne is Bank(10) {
     function getAge() returns (uint)
     {
         return age;
+    }
+
+}
+
+// Error handling
+contract TestThrows
+{
+    function testAssert()
+    {
+        //
+        assert(1 == 2);
+    }
+
+    function testRequire()
+    {
+        // parameter requirement
+        require(2 == 1);
+    }
+
+    function testRevert()
+    {
+        // should revert the gas consumption
+        // we use in a message
+        revert();
+    }
+    function testThrow()
+    {
+        // this comsumes all the gas
+        throw; // actually it is deprecated
     }
 
 }
